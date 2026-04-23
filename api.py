@@ -8,6 +8,11 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/', methods=['GET'])
+def index():
+    """Root endpoint"""
+    return jsonify({"message": "Proxy Server API", "status": "running"})
+
 # ฐานข้อมูล (ใช้เก็บ state ชั่วคราว)
 storage = {
     "targets": {},
@@ -97,6 +102,7 @@ def register_target():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
+load_db()
+
 if __name__ == "__main__":
-    load_db()
     app.run(debug=False)
